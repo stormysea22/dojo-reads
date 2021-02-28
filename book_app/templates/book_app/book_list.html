@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content%}
+
+{% for review in reviews %}
+<h3><a href="{% url 'book_detail' review.book.id %}">{{review.book.title}}</a></h3>
+<div>Rating: {{review.rating}}</div>
+<a href="{% url 'user' request.user.id %}">{{ review.user.first_name }}</a> says:
+<i>{{review.description}}</i><br>
+Posted on: {{review.create_at}}
+
+<h3>Other books with reviews:</h3>
+{% for book in books %}
+    <a href="{% url 'books_detail' book.id %}">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ book.title }}</span>
+            </div>
+        </div>
+    </a>
+{% endfor %}
+
+{% endblock %}

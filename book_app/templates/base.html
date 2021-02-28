@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dojo Reads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <header class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper light-blue">
+                <ul>
+                    {% if request.session.user_id %}
+                        <li><a href="/books" class="left brand-logo">&nbsp;&nbsp;Welcome, {{ request.session.first_name }}!</a></li>
+                    </ul>
+                    <ul class="right">
+                        <li><a href="/books">Home</a></li>
+                        <li><a href="/books/add">Add Book and Review</a></li>
+                        <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    {% else %}
+                        <li><a href="/" class="left brand-logo">&nbsp;&nbsp;Dojo Reads</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="page-footer light-blue">
+        <div class="right">All Rights Reserved, &copy; 2021 Dojo Reads &nbsp;</div>
+    </footer>
+</body>
+
+</html>
