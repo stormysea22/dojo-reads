@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{book.title}}</h1>
+<p>Author: {{book.author.name}}</p>
+{{book.id}}
+{{author.id}}
+{% for author in authors %}
+{% endfor %}
+
+<h2>Reviews:</h2>
+<hr>
+{% for review in book.review.all %}
+    <div>Rating: {{review.rating}}</div>
+    <a href="{% url 'user' request.user.id %}">{{ review.user.first_name }}</a> says:
+    <i>{{review.description}}</i><br>
+    Posted on: {{review.create_at}}
+        {% if review.user == request.user %}
+            <a href="{% url 'delete_review' book.id review.id %}">Delete</a>
+        {% endif %}
+{% endfor %}
+
+<form action="{% url 'create_review' book.id %}" method="POST">
+{% csrf_token %}
+    Add a Review: <br>
+    <input type="text" name="description"><br>
+        <div class="input-field col s12">
+        <select name="rating">
+        <option value="" disabled selected>Choose your rating</option>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+        </select>
+        <label>Rating</label>
+    </div>
+    <br>
+    <input type="submit" class="btn">
+</form>
+
+{% endblock %}

@@ -20,8 +20,8 @@
         <nav>
             <div class="nav-wrapper light-blue">
                 <ul>
-                    {% if request.session.user_id %}
-                        <li><a href="/books" class="left brand-logo">&nbsp;&nbsp;Welcome, {{ request.session.first_name }}!</a></li>
+                    {% if request.user.id %}
+                        <li><a href="/books" class="left brand-logo">&nbsp;&nbsp;Welcome, {{ request.user.first_name }}!</a></li>
                     </ul>
                     <ul class="right">
                         <li><a href="/books">Home</a></li>
@@ -29,6 +29,10 @@
                         <li><a href="{% url 'logout' %}">Log Out</a></li>
                     {% else %}
                         <li><a href="/" class="left brand-logo">&nbsp;&nbsp;Dojo Reads</a></li>
+                    <ul class="right">
+                        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                        <li><a href="{% url 'login' %}">Log In</a></li>
+                    </ul>
                     {% endif %}
                 </ul>
             </div>
@@ -41,6 +45,13 @@
     <footer class="page-footer light-blue">
         <div class="right">All Rights Reserved, &copy; 2021 Dojo Reads &nbsp;</div>
     </footer>
-</body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
 
+    $(document).ready(function(){
+    $('select').formSelect();
+    });
+    </script>
+</body>
 </html>

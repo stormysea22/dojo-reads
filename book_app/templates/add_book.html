@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Add a New Book and Review:</h1>
+<form action="/books/create" method="post">
+    {%csrf_token%}
+    Book Title: <input type="text" name="book_title">
+    Author: 
+        <div class="input-field col s12">
+        <select name="author">
+            <option value="" disabled selected>Choose an Author</option>
+            {% for author in authors %}
+                <option value="{{ author.id }}">{{ author.name }}</option>
+            {% endfor %}
+        </select>
+    add new Author: <input type="text" name="new_author">
+    Review: <textarea name="review" cols="30" rows="10"></textarea>
+    <div class="input-field col s12">
+        <select name="rating">
+        <option value="" disabled selected>Choose your rating</option>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+        </select>
+        <label>Rating</label>
+    </div>
+        <br>
+    <input type="submit" class="btn">
+
+</form>
+
+
+
+{% endblock%}
