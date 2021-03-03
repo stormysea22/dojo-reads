@@ -136,8 +136,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-*/migrations/*
-!*/migrations/__init__.py
-/book_app/migrations
-/login_app/migrations
