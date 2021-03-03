@@ -3,8 +3,10 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from book_app.models import Review, Book, Author
 
+@login_required
 def review_list(request):
     context = {
         'reviews': Review.objects.order_by('-created_at')[:3],
@@ -12,6 +14,8 @@ def review_list(request):
     }
     return render(request, 'review_list.html', context)
 
+
+@login_required
 def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     reviews = Review.objects.filter(user=user)
@@ -24,37 +28,41 @@ def user_detail(request, user_id):
     return render(request, 'user.html', context)
 
 
+@login_required
 def create_book(request):
+    if request.POST['author'] == "new":
+        author = Author.objects.create(
+            name=request.POST['new_author'],
+        )
+    else:
+        author = Author.objects.get(id=request.POST['author'])
+
     book = Book.objects.create(
         title = request.POST['book_title'],
         rating = 0,
         user = request.user,
+        author = author,
     )
-
-    if not request.POST['author']:
-        book.author.add(Author.objects.get(id=request.POST['author']))
-        book.save()
-    else:
-        book.author.add(Author.objects.create(
-            name = request.POST['new_author']
-        ))
 
     new_review = Review.objects.create(
         description= request.POST['review'],
         rating = int(request.POST['rating']),
         user=request.user,
-        reviewed_book = book
+        reviewed_book = book,
     )
 
-    # book.author.add(new_author)
     return redirect(f'/books/{book.id}')
 
+
+@login_required
 def add_book(request):
     context = {
         'authors': Author.objects.all(),
     }
     return render(request, 'add_book.html', context)
 
+
+@login_required
 def book_detail(request, book_id):
     context = {
         'book': Book.objects.get(id=book_id),
@@ -63,6 +71,8 @@ def book_detail(request, book_id):
 
     return render(request, 'book_detail.html', context)
 
+
+@login_required
 def create_review(request, book_id):
     Review.objects.create(
         description = request.POST['description'],
@@ -72,6 +82,8 @@ def create_review(request, book_id):
     )
     return redirect(f'/books/{book_id}')
 
+
+@login_required
 class ReviewDelete(DeleteView):
     model = Review
     

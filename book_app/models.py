@@ -2,16 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Book(models.Model):
-    title = models.CharField(max_length=255)
-    rating = models.IntegerField(blank=True)
-    user = models.ForeignKey(User, related_name="books_added", on_delete=models.CASCADE)
+class Author(models.Model):
+    name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class Author(models.Model):
-    name = models.CharField(max_length=255)
-    books = models.ForeignKey(Book, related_name="author", on_delete=models.CASCADE)
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    rating = models.IntegerField(blank=True)
+    author = models.ForeignKey(Author, related_name="books", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="books_added", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

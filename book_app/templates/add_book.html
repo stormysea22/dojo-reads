@@ -9,6 +9,7 @@
         <div class="input-field col s12">
         <select name="author">
             <option value="" disabled selected>Choose an Author</option>
+            <option value="new">New Author</option>
             {% for author in authors %}
                 <option value="{{ author.id }}">{{ author.name }}</option>
             {% endfor %}
